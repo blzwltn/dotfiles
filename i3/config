@@ -148,7 +148,9 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+#bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec --no-startup-id qdbus-qt5 org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout -1 -1 -1
+
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -209,9 +211,28 @@ exec --no-startup-id /usr/lib/xfce-polkit/xfce-polkit
 # Autorandr
 exec --no-startup-id autorandr --change default
 
+# Plasma compatibility improvements
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="task_dialog"] floating enable
+
+for_window [class="yakuake"] floating enable
+for_window [class="systemsettings"] floating enable
+for_window [class="plasmashell"] floating enable;
+for_window [class="Plasma"] floating enable; border none
+for_window [title="plasma-desktop"] floating enable; border none
+for_window [title="win7"] floating enable; border none
+for_window [class="krunner"] floating enable; border none
+for_window [class="Kmix"] floating enable; border none
+for_window [class="Klipper"] floating enable; border none
+for_window [class="Plasmoidviewer"] floating enable; border none
+for_window [class="(?i)*nextcloud*"] floating disable
+for_window [class="plasmashell" window_type="notification"] border none, move position 70 ppt 81 ppt
+no_focus [class="plasmashell" window_type="notification"]
+for_window [title="Desktop @ QRect.*"] kill; floating enable; border none
+
 # Colors
 # class                 border  backgr. text    indicator child_border
-client.focused          #56282D #A2E3C4 #ffffff #FE5F55   #56282D
+client.focused          #555555 #A2E3C4 #ffffff #999999   #555555
 client.unfocused        #7E8D85 #A2E3C4 #ffffff #F0F7F4   #7E8D85
 
 # Start i3bar to display a workspace bar (plus the system information i3status
